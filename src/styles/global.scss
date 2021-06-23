@@ -1,0 +1,16 @@
+* { /* para todo o documento */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* para manter as proporções da caixa sem somar os paddings que forem 
+  adicionados /* por padrão é 'content-box', que pega o conteúdo e soma os paddings */
+  /* a partir de agora todas as caixas manterão esse padrão */ 
+}
+
+body {
+  background: #f8f8f8;
+  color: #29292e; // cor de texto padrão
+}
+
+body, input, button,textarea {
+  font: 400 16px 'Roboto', sans-serif; // fonte 
+}

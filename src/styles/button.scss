@@ -1,0 +1,31 @@
+.button {
+    margin-top: 64px; // para se distanciar da logo
+    height: 50px;
+    border-radius: 8px;
+    font-weight: 500;
+    background: #835afd;
+    color: #FFF;
+    padding: 0 32px; // para o texto não ficar grudado nas laterais
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer; // para nosso cursor modificar
+    border: 0; // tirando as bordas
+    
+    transition: filter 0.2s;
+
+    img {
+      margin-right: 8px;
+    }
+
+    &:not(:disabled):hover { // caso o botão não esteja desabilitado:
+      filter: brightness(0.9);
+    }
+
+    &:disabled { // para o botão desabilitado:
+      opacity: 0.6;
+      cursor: not-allowed; // cursor de não permitido
+    }
+}
