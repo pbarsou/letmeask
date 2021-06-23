@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router'; // para nos auxiliar na navegação entre páginas usando botões
+import { auth, firebase } from '../services/firebase';
 
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
@@ -9,12 +10,19 @@ import { Button } from '../components/Button';
 import '../styles/auth.scss';
 
 export function Home() {
-
   const history = useHistory();
   /* 'useHistory' é um hook, e hooks utilizam informações de dentro do contexto do componente, por 
   isso necessáriamente ele tem que estar dentro do componente */
   
-  function navigateToNewRoom() {
+  function handleCreateRoom() {
+    const provider = new firebase.auth.GoogleAuthProvider(); 
+    // instância de autenticação do firebase com o Google
+
+    auth.signInWithPopup(provider).then(result => {
+    // autenticação por popup
+      console.log(result);
+    })
+
     history.push('/rooms/new');
     // nos leva até a página de '/rooms/new' (página de nova sala)
   }
@@ -29,7 +37,7 @@ export function Home() {
       <main>
         <div className="main-content">
           <img src={logoImg} alt="Letmeask"/>
-          <button onClick={navigateToNewRoom} className="create-room">
+          <button onClick={handleCreateRoom} className="create-room">
             <img src={googleIconImg} alt="Logo do Google"/>
             Crie sua sala com o Google
           </button>
