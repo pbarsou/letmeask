@@ -1,6 +1,6 @@
 // 'App.tsx' é a nossa 'single-page', todas as outras páginas são geradas a partir dela
 
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'; // importação de componentes para roteamento
 
 import { Home } from './pages/Home';
@@ -28,6 +28,34 @@ function App() {
 
   const [user, setUser] = useState<User>();
   // estamos informando que o 'user' é do tipo 'User'
+
+  useEffect(() => {
+  // disparador de efeitos colaterais
+    auth.onAuthStateChanged(user => {
+    // se ele detectar que o usuário já havia sido logado:
+      if (user) {
+      // se usuário existir:
+        const { displayName, photoURL, uid } = user;
+        /* sendo 'displayName' o nome que o usuário quer ser chamado, 'photoURL' a foto de perfil 
+        e 'uid' o identificador único */
+
+        if (!displayName || !photoURL ) {
+        // se o usuário não tiver nome ou foto de perfil
+          throw new Error('Missing information from Google Account.')
+        }
+
+        setUser({
+        // preenchimento das informações do nosso 'user'
+          id: uid,
+          name: displayName,
+          avatar: photoURL
+        })
+      }
+    })
+  }, []);
+  /* '[]' vazio ao final do 'useEffect', indica que ele será executado apenas quando 'App.tsx' 
+  for aberto (ou recarregado). Dessa forma, não perdemos as informações de credenciamento do 
+  usuário ao ele dar reload na página. */
 
   async function signInWithGoogle() { 
   // função de autenticação
