@@ -11,7 +11,7 @@ type User = {
 type AuthContextType = {
   user: User | undefined;
   /* 'user' pode ser undefined porque inicialmente, antes de se fazer a autenticação, seu valor é
-  indefinido */
+  vazio e indefinido */
   signInWithGoogle: () => Promise<void>; // é uma promise sem retono
 }
 
@@ -28,8 +28,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   // estamos informando que o 'user' é do tipo 'User'
 
   useEffect(() => {
-  // disparador de efeitos colaterais
+  // hook disparador de efeitos colaterais
     const unsubscribe = auth.onAuthStateChanged(user => {
+    // observa se houve alteração no estado de autenticação do usuáio
     // se ele detectar que o usuário já havia sido logado:
       if (user) {
       // se usuário existir:
@@ -46,7 +47,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         // preenchimento das informações do nosso 'user'
           id: uid,
           name: displayName,
-          avatar: photoURL
+          avatar: photoURL,
         })
       }
     })
@@ -58,8 +59,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     Dessa forma, é necessário nos desincrevermos do event listener. */
   }, []);
   /* '[]' vazio ao final do 'useEffect', indica que ele será executado apenas quando 'App.tsx' 
-  for aberto (ou recarregado). Dessa forma, não perdemos as informações de credenciamento do 
-  usuário ao ele dar reload na página. */
+  for aberto (ou mesmo recarregado ou fechado e aberto novamente). Dessa forma, não perdemos as 
+  informações de credenciamento do usuário ao ele dar reload na página. */
 
   async function signInWithGoogle() { 
   // função de autenticação
@@ -86,14 +87,14 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         // preenchimento das informações do nosso 'user'
           id: uid,
           name: displayName,
-          avatar: photoURL
+          avatar: photoURL,
         })
       }
     }
     
   return (
     <AuthContext.Provider value={{ user, signInWithGoogle }}>
-      {props.children};
+      {props.children}
     </AuthContext.Provider>
   );
   // 'props.children' recebe o que tá sendo passado dentro do 'AuthContextProvider' em 'App.tsx'
