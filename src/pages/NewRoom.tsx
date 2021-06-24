@@ -74,7 +74,7 @@ export function NewRoom() {
         </div>
       </main>
     </div>
-  );
+  )
   // 'aside' sendo a parte lateral
   // componente Link sendo usado logo acima
   /* no 'form', 'onChange' observa qualquer mudança que aconteça dentro do 'input' e caso haja, seta

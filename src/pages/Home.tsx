@@ -96,6 +96,6 @@ export function Home() {
         </div>
       </main>
     </div>
-  );
+  )
   // 'aside' sendo a parte lateral
 }

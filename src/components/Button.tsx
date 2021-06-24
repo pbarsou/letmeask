@@ -12,6 +12,6 @@ export function Button(props: ButtonProps) { /* props sendo do tipo 'ButtonProps
   um botão HTML */
   return (
     <button className="button" {...props}/>
-  );
+  )
 } // '{...props}' faz com que todas as props sejam repassadas para dentro do botão
   // as 'props' que passamos em 'Home' e 'NewRoom' são apenas o tipo do botão e o seu conteúdo
