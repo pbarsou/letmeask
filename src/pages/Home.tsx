@@ -1,7 +1,4 @@
-import { useContext } from 'react';
 import { useHistory } from 'react-router'; // para nos auxiliar na navegação entre páginas usando botões
-
-import { AuthContext } from '../App';
 
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
@@ -11,12 +8,14 @@ import { Button } from '../components/Button';
 
 import '../styles/auth.scss';
 
+import { useAuth } from '../hooks/useAuth';
+
 export function Home() {
   const history = useHistory();
   /* 'useHistory' é um hook, e hooks utilizam informações de dentro do contexto do componente, por 
   isso necessáriamente ele tem que estar dentro do componente */
 
-  const { user, signInWithGoogle } = useContext(AuthContext);
+  const { user, signInWithGoogle } = useAuth();
   
   async function handleCreateRoom() {
   // função para lidar com criação da sala
