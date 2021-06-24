@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { useHistory } from 'react-router'; // para nos auxiliar na navegação entre páginas usando botões
-import { auth, firebase } from '../services/firebase';
+
+import { AuthContext } from '../App';
 
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
@@ -13,15 +15,17 @@ export function Home() {
   const history = useHistory();
   /* 'useHistory' é um hook, e hooks utilizam informações de dentro do contexto do componente, por 
   isso necessáriamente ele tem que estar dentro do componente */
-  
-  function handleCreateRoom() {
-    const provider = new firebase.auth.GoogleAuthProvider(); 
-    // instância de autenticação do firebase com o Google
 
-    auth.signInWithPopup(provider).then(result => {
-    // autenticação por popup
-      console.log(result);
-    })
+  const { user, signInWithGoogle } = useContext(AuthContext);
+  
+  async function handleCreateRoom() {
+  // função para lidar com criação da sala
+  
+    if(!user) {
+    // se usuário não existir:
+      await signInWithGoogle();
+      // é chamada a função de autenticação
+    }
 
     history.push('/rooms/new');
     // nos leva até a página de '/rooms/new' (página de nova sala)
