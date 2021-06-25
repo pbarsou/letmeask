@@ -5,15 +5,15 @@ import copyImg from '../assets/images/copy.svg';
 
 import '../styles/room-code.scss';
 
-type RoomCode = {
+type RoomCodeProps = {
   code: string;
 }
 
-export function RoomCode(props: RoomCode) {
+export function RoomCode(props: RoomCodeProps) {
   // recebe como parâmetro o código da sala
   function copyRoomCodeToClipboard() {
     navigator.clipboard.writeText(props.code);
-    // copia o texto para o nosso 'ctrl + c'
+    // copia o texto para a nossa área de transferência (ctrl + c)
   }
 
   return (

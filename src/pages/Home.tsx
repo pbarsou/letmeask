@@ -98,4 +98,6 @@ export function Home() {
     </div>
   )
   // 'aside' sendo a parte lateral
+  /* no 'form', 'onChange' observa qualquer mudança que aconteça dentro do 'input' e caso haja, seta
+  o novo valor de 'roomCode' usando 'SetRoomCode' // 'value={roomCode}' salva o valor de 'roomCode' */
 }

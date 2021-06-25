@@ -98,4 +98,5 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     </AuthContext.Provider>
   );
   // 'props.children' recebe o que tá sendo passado dentro do 'AuthContextProvider' em 'App.tsx'
+  // as rotas passadas, passam a ter acesso ao retorno do contexto
 }
