@@ -34,6 +34,32 @@
         font-size: 14px;
       }
     }
+
+    button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: filter 0.2s;
+      
+      &.like-button { // referente ao botão de like pela vizualização do user
+        display: flex;
+        align-items: flex-end;
+        color: #737380;
+        gap: 8px; // distanciamento entre os itens com display flex
+
+        &.liked { // caso o botão tenha a classe 'liked' (ou seja, quer dizer que o usuário deu like):
+          color: #835afd; 
+
+          svg path { // caminho até a cor do svg
+            stroke: #835afd; // mudando a cor do sgv
+          }
+        }
+
+        &:hover {
+          filter: brightness(0.7);
+        }
+      }
+    }
   }
 
 }
