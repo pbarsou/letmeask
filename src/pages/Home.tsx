@@ -62,6 +62,12 @@ export function Home() {
       return;
       // para não continuar
     }
+    
+    if (roomRef.val().closedAt) {
+      alert('Room already closed.');
+      return;
+      // dessa forma nenhum usuário consegue mais entrar na sala
+    }
 
     history.push(`/rooms/${roomCode}`);
     // direciona para o endereço da sala

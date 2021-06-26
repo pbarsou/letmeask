@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.svg';
 import deleteImg from '../assets/images/delete.svg';
@@ -21,6 +21,7 @@ export function AdminRoom() {
   // const { user } = useAuth();
   // pegando 'user' da resposta do 'AuthContext' 
 
+  const history = useHistory();
   const params = useParams<RoomParams>();
   // 'useParams' nos devolve os parâmetros da rota (o que vem depois do '/')
   // '< >' uso de generics para que a função saiba quais os parâmetros que ela irá receber
@@ -29,6 +30,17 @@ export function AdminRoom() {
   const { title, questions}= useRoom(roomId);
   /* usando o hook que criamos para armazenar o que há em comum entre a visualização da sala entre
   o user e o admin */
+
+  async function handleEndRoom() {
+  // função para lidar com finalização da sala
+    await database.ref(`/rooms/${roomId}`).update({
+      closedAt: new Date(),
+      // a página passa a ter como informação apenas o 'endedAt', que é a data em que foi finalizada
+    });
+
+    history.push('/');
+    // leva o usuário até a home page
+  }
 
   async function handleDeleteQuestion(questionId: string) {
   // função para lidar com remoção de uma questão
@@ -45,7 +57,7 @@ export function AdminRoom() {
           <img src={logoImg} alt="Letmeask"/>
           <div>
             <RoomCode code={roomId}/>
-            <Button isOutlined>Encerrar sala</Button>
+            <Button isOutlined onClick={handleEndRoom}>Encerrar sala</Button>
           </div>
         </div>
       </header>
