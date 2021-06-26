@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.svg';
 
 import { Button } from '../components/Button';
+import { Question } from '../components/Question';
 import { RoomCode } from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
 
@@ -26,7 +27,7 @@ type FirebaseQuestions = Record<string, {
 o segundo é um objeto, já que 'questions' do nosso bd retorna o seu 'id' como primeiro parâmetro e 
 o seu conteúdo como segundo */
 
-type Question = {
+type QuestionType = {
   id: string;
   author: {
     name: string;
@@ -51,15 +52,15 @@ export function Room() {
   // '< >' uso de generics para que a função saiba quais os parâmetros que ela irá receber
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState('');
-  const [questions, setQuestions] = useState<Question[]>([]);
-  // informamos que 'question' armazena um array de 'Question' usando generics e que inicia vazio
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  // informamos que 'questions' armazena um array de 'QuestionType' usando generics e que inicia vazio
   const [title, setTitle] = useState('');
 
   useEffect(() => {
     const roomRef = database.ref(`rooms/${roomId}`);
     // acesso a nossa página no bd
 
-    roomRef.once('value', room => {
+    roomRef.on('value', room => {
     /* 'once' ouve o evento ('value' é um dos eventos que o firebase disponibiliza, o qual 
     monitora todos os valores) apenas uma vez, 'on' fica ouvindo qualquer modificação feita 
     no evento */ 
@@ -78,7 +79,10 @@ export function Room() {
           isHighlighted: value.isHighlighted,
         }
       });
-      
+      /* '.entries' retorna o objeto em formato de array pra gente, e como explicado no 
+      'FirebaseQuestions' retorna uma string (id da questão) e um objeto (seu conteúdo) */
+      // '.map' para percorrer dentro do array
+
       setTitle(databaseRoom.title);
       // 'databaseRoom' armazena os dados da nossa página
       // setando o 'title' da nossa sala numa variável já que vamos exibí-lo em tela
@@ -86,11 +90,13 @@ export function Room() {
       // setando as questions no nosso array de 'questions'
     })
   }, [roomId])
-  /* '.entries' retorna o objeto em formato de array pra gente, e como explicado no 
-      'FirebaseQuestions' retorna uma string (id da questão) e um objeto (seu conteúdo) */
-      // '.map' para percorrer dentro do array 
+  // monitora o 'roomId' (nossa sala)
+   
 
-  async function handleSendQuestion() {
+  async function handleSendQuestion(event: FormEvent) {
+  // função para lidar com a criação de perguntas
+    event.preventDefault();
+
     if (newQuestion.trim() === '') {
       return;
     }
@@ -158,6 +164,18 @@ export function Room() {
             </Button>
           </div>
         </form>
+        
+        <div className="question-list">
+          {questions.map(question => {
+            return (
+              <Question
+                key={question.id} 
+                content={question.content}
+                author={question.author}
+              />
+            );
+          })}
+        </div>
       </main>
     </div>
   )
@@ -169,4 +187,6 @@ export function Room() {
   'y', se não, 'z' // após a '?', vem o bloco de código de quando verdadeiro, e após o ':', o bloco 
   de código de quando for falso */
   // 'questions.length > 0 && ...', '&&' é usado no ternário quando não temos condição para o 'se não'
+  /* 'key={question.id}' necessária quando usamos '.map' no react. Usada para identificar qual a 
+  informação única entre as perguntas */
 }
