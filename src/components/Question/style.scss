@@ -7,6 +7,19 @@
   & + .question { // se houver uma '.question' depois dela
     margin-top: 8px;
   }
+
+  &.highlighted {
+    background: #F4F0FF;
+    border: 1px solid #835AFD;
+
+    footer .user-info span { // alterando a cor de texto do nome do user
+      color: #29292e;
+    }
+  }
+
+  &.answered {
+    background: #DBDCDD;
+  }
   
   p {
     color: #29292e;
@@ -33,6 +46,11 @@
         color: #737380;
         font-size: 14px;
       }
+    }
+
+    > div {
+      display: flex;
+      gap: 16px;
     }
 
     button {
