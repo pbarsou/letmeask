@@ -5,6 +5,7 @@ import { ButtonHTMLAttributes } from "react"; // tipagem de um botão estilo bot
 
 import '../styles/button.scss';
 
+
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isOutlined?: boolean;
 };
@@ -13,8 +14,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 export function Button({ isOutlined, ...props }: ButtonProps) { 
   // '...props' (pega todo o restante das props) do tipo 'ButtonProps' possui tipagem de um botão HTML 
   // 'isOutlined' verifica se é o botão da 'room' por visualização do admin
+  
   return (
-    <button className={`button ${isOutlined ? 'outlined' : ''}`} 
+    <button className={`button ${isOutlined ? 'outlined' : ''} `} 
     {...props}
     />
   )

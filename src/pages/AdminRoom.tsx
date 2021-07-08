@@ -1,6 +1,7 @@
 import { useHistory, useParams } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.svg';
+import logoDark from '../assets/images/logo-dark.svg';
 import deleteImg from '../assets/images/delete.svg';
 import checkImg from '../assets/images/check.svg';
 import answerImg from '../assets/images/answer.svg';
@@ -8,11 +9,15 @@ import answerImg from '../assets/images/answer.svg';
 import { Button } from '../components/Button';
 import { Question } from '../components/Question';
 import { RoomCode } from '../components/RoomCode';
-// import { useAuth } from '../hooks/useAuth';
 import { useRoom } from '../hooks/useRoom';
 
-import '../styles/room.scss';
 import { database } from '../services/firebase';
+
+import '../styles/room.scss';
+
+import { useContext } from 'react';
+import { ThemeContext } from '../contexts/ThemeContext';
+import { Toggle } from '../components/Toggle';
 
 type RoomParams = {
   id: string;
@@ -66,66 +71,70 @@ export function AdminRoom() {
     });
   }
 
-  return (
-    <div id="page-room">
-      <header>
-        <div className="content">
-          <img src={logoImg} alt="Letmeask"/>
-          <div>
-            <RoomCode code={roomId}/>
-            <Button isOutlined onClick={handleEndRoom}>Encerrar sala</Button>
-          </div>
-        </div>
-      </header>
+  const { theme } = useContext(ThemeContext);
 
-      <main>
-        <div className="room-title">
-          <h1>Sala {title}</h1>
-          { questions.length === 1 ? 
-            <span>{questions.length} pergunta</span> 
-          : (<> 
-            {questions.length > 0 && <span>{questions.length} perguntas</span>} 
-          </>)}
-        </div>
-        
-        <div className="question-list">
-          {questions.map(question => {
-            return (
-              <Question
-                key={question.id} 
-                content={question.content}
-                author={question.author}
-                isAnswered={question.isAnswered}
-                isHighlighted={question.isHighlighted}
-              >
-                { !question.isAnswered && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => handleCheckQuestionAsAnswered(question.id)}
-                  >
-                    <img src={checkImg} alt="Marcar pergunta como respondida"/>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleHighlightQuestion(question.id)}
-                  >
-                    <img src={answerImg} alt="Dar destaque a pergunta"/>
-                  </button>
-                </>)}
-                
-                <button
-                  type="button"
-                  onClick={() => handleDeleteQuestion(question.id)}
+  return (
+      <div id="page-room" className={theme}>
+        <header>
+          <div className="content">
+            <img src={theme === 'light' ? logoImg : logoDark} alt="Letmeask"/>
+            <div>
+              <RoomCode code={roomId}/>
+              <Button isOutlined onClick={handleEndRoom}>Encerrar sala</Button>
+            </div>
+          </div>
+        </header>
+
+        <Toggle />
+
+        <main>
+          <div className="room-title">
+            <h1>Sala {title}</h1>
+            { questions.length === 1 ? 
+              <span>{questions.length} pergunta</span> 
+            : (<> 
+              {questions.length > 0 && <span>{questions.length} perguntas</span>} 
+            </>)}
+          </div>
+          
+          <div className="question-list">
+            {questions.map(question => {
+              return (
+                <Question
+                  key={question.id} 
+                  content={question.content}
+                  author={question.author}
+                  isAnswered={question.isAnswered}
+                  isHighlighted={question.isHighlighted}
                 >
-                  <img src={deleteImg} alt="Remove pergunta"/>
-                </button>
-              </Question>
-            );
-          })}
-        </div>
-      </main>
-    </div>
+                  { !question.isAnswered && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                    >
+                      <img src={checkImg} alt="Marcar pergunta como respondida"/>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleHighlightQuestion(question.id)}
+                    >
+                      <img src={answerImg} alt="Dar destaque a pergunta"/>
+                    </button>
+                  </>)}
+                  
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteQuestion(question.id)}
+                  >
+                    <img src={deleteImg} alt="Remove pergunta"/>
+                  </button>
+                </Question>
+              );
+            })}
+          </div>
+        </main>
+      </div>
   )
   // 'questions.length > 0 && ...', '&&' é usado no ternário quando não temos condição para o 'se não'
   /* 'key={question.id}' necessária quando usamos '.map' no react. Usada para identificar qual a 

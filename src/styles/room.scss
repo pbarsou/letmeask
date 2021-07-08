@@ -1,4 +1,44 @@
 #page-room {
+
+  min-height: 100vh; // para pegar a tela toda verticalmente
+
+  &.dark {
+    background: #1c1e1f;
+
+    header {
+      border-bottom: 1px solid #4d4d4d;
+    }
+
+    main {
+      .room-title {
+        h1 {
+          color: #f5efef;
+        }
+      }
+
+      form {
+        textarea {
+          background: #191b1c;
+          color: #f5efef;
+        }
+
+        .form-footer {
+          .user-info {
+            span,
+            p {
+              color: #a1a1a1;
+            }
+
+            .logout {
+              background-color: transparent;
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+  
   header {
     padding: 24px;
     border-bottom: 1px solid #e2e2e2;
@@ -109,4 +149,4 @@
       margin-top: 32px;
     }
   }
-}
+} 

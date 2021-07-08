@@ -1,7 +1,37 @@
 #page-auth {
+
   display: flex;
   align-items: stretch; // para que os itens se estiquem para caber na largura estipulada
   height: 100vh; // ocupe a tela toda verticalmente
+
+  &.dark {
+    background: #1c1e1f;
+
+    aside {
+      background: #7042fa;
+    }
+    .main-content {
+      form {
+        input {
+          background: #181a1b;
+          border-color: #424242;
+          color: #fff;
+        }
+      }
+      p {
+        color: #fff;
+      }
+    }
+
+    h2 {
+      color: #fff;
+    }
+
+    .separator {
+      color: #fff;
+      opacity: 85%;
+    }
+  }
 
   aside {
     flex: 7;
@@ -115,7 +145,7 @@
   }
 
   .separator {
-    font-size: 14px;
+    font-size: 16px;
     color: #a8a8b3;
 
     margin: 32px 0;

@@ -2,6 +2,7 @@ import { useHistory } from 'react-router'; // para nos auxiliar na navegação e
 
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
+import logoDark from '../assets/images/logo-dark.svg';
 import googleIconImg from '../assets/images/google-icon.svg';
 
 import { Button } from '../components/Button';
@@ -9,8 +10,12 @@ import { Button } from '../components/Button';
 import '../styles/auth.scss';
 
 import { useAuth } from '../hooks/useAuth';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useContext } from 'react';
 import { database } from '../services/firebase';
+
+import { Toggle } from '../components/Toggle';
+import { ThemeContext } from '../contexts/ThemeContext';
+
 
 export function Home() {
   const history = useHistory();
@@ -73,16 +78,21 @@ export function Home() {
     // direciona para o endereço da sala
   }
 
+  const { theme } = useContext(ThemeContext);
+
   return(
-    <div id="page-auth">
+    <div id="page-auth" className={theme}>
       <aside>
         <img src={illustrationImg} alt="Ilustração simbolizando perguntas e respostas"/>
         <strong>Crie salas de Q&amp;A ao-vivo</strong>
         <p>Tire as dúvidas da sua audiência em tempo-real.</p>
       </aside>
+
+      <Toggle />
+      
       <main>
         <div className="main-content">
-          <img src={logoImg} alt="Letmeask"/>
+          <img src={theme === 'light' ? logoImg : logoDark} alt="Letmeask"/>
           <button onClick={handleCreateRoom} className="create-room">
             <img src={googleIconImg} alt="Logo do Google"/>
             Crie sua sala com o Google
